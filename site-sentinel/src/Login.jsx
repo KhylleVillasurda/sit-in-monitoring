@@ -104,6 +104,18 @@ const termStyles = `
   @keyframes blink { 50% { opacity: 0; } }
   .term-hint { padding: 10px 22px 14px; font-size: 10px; color: #222; border-top: 1px solid #161616; letter-spacing: 0.04em; }
 
+  /* Terminal logo row */
+  .term-logo-row {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    padding: 14px 22px 0;
+  }
+  .term-logo-img {
+    height: 36px; width: auto; object-fit: contain;
+    filter: brightness(0.85) saturate(0.7);
+    transition: filter 0.2s;
+  }
+  .term-logo-img:hover { filter: brightness(1) saturate(1); }
+
   /* Mode toggle button */
   .mode-toggle-btn {
     position: fixed; bottom: 18px; right: 18px; z-index: 9999;
@@ -178,16 +190,26 @@ const friendlyStyles = `
 
   /* Header */
   .f-header { padding: 32px 32px 0; }
-  .f-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-  .f-logo-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: linear-gradient(135deg, #39ff14 0%, #1a7a08 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
+
+  /* Logo row with images */
+  .f-logo-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
   }
+  .f-logo-img {
+    height: 40px; width: auto; object-fit: contain; flex-shrink: 0;
+  }
+  .f-logo-divider {
+    width: 1px; height: 28px; flex-shrink: 0;
+  }
+  .dark .f-logo-divider { background: rgba(255,255,255,0.12); }
+  .light .f-logo-divider { background: rgba(0,0,0,0.12); }
+  .f-logo-text-group { display: flex; flex-direction: column; gap: 1px; }
   .f-logo-text { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .dark .f-logo-text { color: #39ff14; }
   .light .f-logo-text { color: #1a7a08; }
+  .f-logo-subtext { font-size: 10px; font-weight: 500; letter-spacing: 0.04em; }
+  .dark .f-logo-subtext { color: #475569; }
+  .light .f-logo-subtext { color: #94a3b8; }
 
   .f-title { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
   .dark .f-title { color: #f1f5f9; }
@@ -434,9 +456,24 @@ function FriendlyLogin({ onLogin, onGoToRegister, theme, onToggleTheme, onToggle
 
       <div className="f-card">
         <div className="f-header">
+          {/* Logo row: CCS logo + divider + UC logo + app name */}
           <div className="f-logo-row">
-            <div className="f-logo-icon">🛡</div>
-            <span className="f-logo-text">Site Sentinel</span>
+            <img
+              src="assets/ccslogo.png"
+              alt="CCS Logo"
+              className="f-logo-img"
+            />
+            <div className="f-logo-divider" />
+            <img
+              src="assets/uclogo.png"
+              alt="UC Logo"
+              className="f-logo-img"
+            />
+            <div className="f-logo-divider" />
+            <div className="f-logo-text-group">
+              <span className="f-logo-text">Site Sentinel</span>
+              <span className="f-logo-subtext">CCS · University of Cebu</span>
+            </div>
           </div>
           <div className="f-title">Welcome back</div>
           <div className="f-subtitle">Sign in to your monitoring account</div>
@@ -580,6 +617,13 @@ function TerminalLogin({ onLogin, onGoToRegister, onToggleMode }) {
             <div className="dot dot-red" /><div className="dot dot-yellow" /><div className="dot dot-green-mac" />
             <span className="titlebar-title">sentinel@monitor: ~ — bash</span>
           </div>
+
+          {/* Terminal logo row */}
+          <div className="term-logo-row">
+            <img src="/ccslogo.png" alt="CCS Logo" className="term-logo-img" />
+            <img src="/uclogo.png" alt="UC Logo" className="term-logo-img" />
+          </div>
+
           <div className="term-log">
             {BOOT_LINES.slice(0, bootVisible).map((l, i) => (
               <div key={i} className={`log-line ${l.cls}`}>{l.text}</div>

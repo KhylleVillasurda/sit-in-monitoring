@@ -1,0 +1,16 @@
+# SQLite database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# SQLite temporary files
+*.db-shm
+*.db-wal
+
+node_modules
+target
+Cargo.lock
+
+database
+.env

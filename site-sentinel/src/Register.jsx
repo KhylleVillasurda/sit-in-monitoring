@@ -92,6 +92,18 @@ const termStyles = `
   .term-hint { padding: 10px 22px 14px; font-size: 10px; color: #1e1e1e; border-top: 1px solid #161616; letter-spacing: 0.04em; }
   .mode-toggle-btn { position: fixed; bottom: 18px; right: 18px; z-index: 9999; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; padding: 6px 10px; cursor: pointer; transition: all 0.2s; opacity: 0.5; }
   .mode-toggle-btn:hover { opacity: 1; border-color: var(--green); color: var(--green); }
+
+  /* Terminal logo row */
+  .term-logo-row {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    padding: 14px 22px 0;
+  }
+  .term-logo-img {
+    height: 36px; width: auto; object-fit: contain;
+    filter: brightness(0.85) saturate(0.7);
+    transition: filter 0.2s;
+  }
+  .term-logo-img:hover { filter: brightness(1) saturate(1); }
 `;
 
 // ─── FRIENDLY STYLES ───────────────────────────────────────────────────────
@@ -109,10 +121,25 @@ const friendlyStyles = `
   .light .f-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.07); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
   @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
   .f-header { padding: 28px 28px 0; }
-  .f-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  .f-logo-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #39ff14 0%, #1a7a08 100%); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+
+  /* Logo row with images */
+  .f-logo-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  }
+  .f-logo-img {
+    height: 40px; width: auto; object-fit: contain; flex-shrink: 0;
+  }
+  .f-logo-divider {
+    width: 1px; height: 28px; flex-shrink: 0;
+  }
+  .dark .f-logo-divider { background: rgba(255,255,255,0.12); }
+  .light .f-logo-divider { background: rgba(0,0,0,0.12); }
+  .f-logo-text-group { display: flex; flex-direction: column; gap: 1px; }
   .f-logo-text { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .dark .f-logo-text { color: #39ff14; } .light .f-logo-text { color: #1a7a08; }
+  .f-logo-subtext { font-size: 10px; font-weight: 500; letter-spacing: 0.04em; }
+  .dark .f-logo-subtext { color: #475569; } .light .f-logo-subtext { color: #94a3b8; }
+
   .f-title { font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
   .dark .f-title { color: #f1f5f9; } .light .f-title { color: #0f172a; }
   .f-subtitle { font-size: 13px; color: #64748b; }
@@ -334,9 +361,24 @@ function FriendlyRegister({ onGoToLogin, theme, onToggleTheme, onToggleMode, onR
       <style>{friendlyStyles}</style>
       <div className="f-card">
         <div className="f-header">
+          {/* Logo row: CCS logo + divider + UC logo + app name */}
           <div className="f-logo-row">
-            <div className="f-logo-icon">🛡</div>
-            <span className="f-logo-text">Site Sentinel</span>
+            <img
+              src="assets/ccs-logo.png"
+              alt="CCS Logo"
+              className="f-logo-img"
+            />
+            <div className="f-logo-divider" />
+            <img
+              src="assets/uclogo.png"
+              alt="UC Logo"
+              className="f-logo-img"
+            />
+            <div className="f-logo-divider" />
+            <div className="f-logo-text-group">
+              <span className="f-logo-text">Site Sentinel</span>
+              <span className="f-logo-subtext">CCS · University of Cebu</span>
+            </div>
           </div>
           <div className="f-title">Create an account</div>
           <div className="f-subtitle">Register as a sit-in monitoring staff member</div>
@@ -554,6 +596,13 @@ function TerminalRegister({ onRegister, onGoToLogin, onToggleMode }) {
             <div className="dot dot-red" /><div className="dot dot-yellow" /><div className="dot dot-green-mac" />
             <span className="titlebar-title">sentinel@monitor: ~ — register</span>
           </div>
+
+          {/* Terminal logo row */}
+          <div className="term-logo-row">
+            <img src="/ccslogo.png" alt="CCS Logo" className="term-logo-img" />
+            <img src="/uclogo.png" alt="UC Logo" className="term-logo-img" />
+          </div>
+
           <div className="term-log">
             {BOOT_LINES.slice(0, bootVisible).map((l, i) => (
               <div key={i} className={`log-line ${l.cls}`}>{l.text}</div>
